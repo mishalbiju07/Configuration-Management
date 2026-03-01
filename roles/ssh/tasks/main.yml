@@ -1,0 +1,9 @@
+---
+- name: Add multiple Public Keys
+  authorized_key:
+    user: "{{ item.user }}"
+    state: present
+    key: "{{ lookup('file', item.key) }}"
+  loop:
+    - { user: ubuntu, key: 'files/testing_1.pem' }
+    - { user: ubuntu, key: 'files/testing_2.pem' }

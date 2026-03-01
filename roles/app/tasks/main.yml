@@ -1,0 +1,26 @@
+---
+- name: Ensure git Is installed
+  apt:
+    name: git
+    state: present
+    update_cache: yes
+
+- name: Pull website from Github
+  git:
+    repo: 'https://github.com/mishalbiju07/test_ansible_static_web.git'
+    dest: /var/www/html/
+    version: main
+    force: yes
+    update: yes
+
+- name: Set permission for Nginx
+  file:
+    path: /var/www/html/
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Reload Nginx to apply changes
+  service:
+    name: nginx
+    state: reloaded

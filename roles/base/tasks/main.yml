@@ -1,0 +1,37 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Upgrade all packages
+  apt:
+    upgrade: dist
+
+- name: Install some utilities
+  apt:
+    name:
+      - curl
+      - git
+      - unzip
+    state: present
+
+- name: Install fail2ban
+  apt:
+    name: fail2ban
+    state: present
+  become: yes
+
+- name: Reload systemd daemon to register new services
+  command: systemctl daemon-reload
+  become: yes
+
+- name: Ensure fail2ban is running
+  systemd:
+    name: fail2ban
+    state: started
+    enabled: yes
+  become: yes
+- name: Install htop
+  apt:
+    name: htop
+    state: present
